@@ -23,34 +23,34 @@ services:
     image: portainer/portainer-ce
 
   catalog.api:
-    image: ${DOCKER_REGISTRY-}catalogapi
+    image: catalogapi
     build:
-      context: .
-      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+      context: ./Services
+      dockerfile: Catalog/Catalog.API/Dockerfile
 
   basket.api:
-    image: ${DOCKER_REGISTRY-}basketapi
+    image: basketapi
     build:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
 
   discount.api:
-    image: ${DOCKER_REGISTRY-}discountapi
+    image: discountapi
     build:
       context: .
       dockerfile: Services/Discount/Discount.API/Dockerfile
 
   discount.grpc:
-    image: ${DOCKER_REGISTRY-}discountgrpc
+    image: discountgrpc
     build:
-      context: .
-      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+      context: ./Services
+      dockerfile: Discount/Discount.Grpc/Dockerfile
 
   ordering.api:
-    image: ${DOCKER_REGISTRY-}orderingapi
+    image: orderingapi
     build:
-      context: .
-      dockerfile: Services/Ordering/Ordering.API/Dockerfile
+      context: ./Services
+      dockerfile: Ordering/Ordering.API/Dockerfile
 
 volumes:
   mongo_data: 

@@ -1,6 +1,7 @@
 using Basket.API.GrpcService;
 using Basket.API.Repositories;
 using Discount.Grpc.Protos;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +15,13 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Catalog.API", Version = "v1" });
 });
 
+// Redis Configuration
 builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetValue<string>("CacheSettings:ConnectionString");
 });
 
+// GRPC configuration
 builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
     (o => o.Address = new Uri(builder.Configuration.GetValue<string>("GrpcSettings:DiscountUrl")));
 
@@ -26,6 +29,19 @@ builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>
 builder.Services.AddScoped<DiscountGrpcService>();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
+//MassTransit-RabbitMQ Configuration
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host(builder.Configuration.GetValue<string>("EventBusSettings:HostAddress"));
+    });
+});
+builder.Services.AddMassTransitHostedService();
+
+// Build the application
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
