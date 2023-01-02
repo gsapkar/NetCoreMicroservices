@@ -1,22 +1,27 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Ordering.Application.Features.Commands.CheckoutOrder;
-using Ordering.Application.Features.Commands.DeleteOrder;
-using Ordering.Application.Features.Commands.UpdateOrder;
-using Ordering.Application.Features.Queries;
-using Ordering.Application.Features.Queries.GetOrdersList;
+using Ordering.Application.Features.Orders.Commands.CheckoutOrder;
+using Ordering.Application.Features.Orders.Commands.DeleteOrder;
+using Ordering.Application.Features.Orders.Commands.UpdateOrder;
+using Ordering.Application.Features.Orders.Queries.GetOrdersList;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Ordering.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class OrderController: ControllerBase
+    public class OrderController : ControllerBase
     {
         private readonly IMediator _mediator;
+
         public OrderController(IMediator mediator)
         {
-            _mediator = mediator;
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet("{userName}", Name = "GetOrder")]

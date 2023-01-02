@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Basket.API.Entities;
-using EventBus.Message.Events;
+using EventBus.Messages.Events;
 
 namespace Basket.API.Mapper
 {
-    public class BasketProfile: Profile
+    public class BasketProfile : Profile
     {
         public BasketProfile()
         {

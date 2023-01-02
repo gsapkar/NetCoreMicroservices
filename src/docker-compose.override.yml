@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db   
+      - mongo_data:/data/db
 
   basketdb:
     container_name: basketdb
@@ -23,14 +23,14 @@ services:
       - POSTGRES_DB=DiscountDb
     restart: always
     ports:
-      - "5432:5432"
+        - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data/
 
   orderdb:
     container_name: orderdb
     environment:
-        SA_PASSWORD: "admin1234#"
+        SA_PASSWORD: "SwN12345678"
         ACCEPT_EULA: "Y"
     restart: always
     ports:
@@ -40,17 +40,17 @@ services:
     container_name: rabbitmq
     restart: always
     ports:
-      - "5672:5672"
-      - "15672:15672"
+        - "5672:5672"
+        - "15672:15672"
 
   pgadmin:
     container_name: pgadmin
     environment:
-      - PGADMIN_DEFAULT_EMAIL=goce@admin.com
+      - PGADMIN_DEFAULT_EMAIL=admin@aspnetrun.com
       - PGADMIN_DEFAULT_PASSWORD=admin1234
     restart: always
     ports:
-      - "5050:80"
+        - "5050:80"
     volumes:
       - pgadmin_data:/root/.pgadmin
 
@@ -80,13 +80,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=basketdb:6379"
       - "GrpcSettings:DiscountUrl=http://discount.grpc"
-      - "EventBusSettings:HostAddress=ampq://guest:guest@rabbitmq:5672"
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - basketdb
       - rabbitmq
     ports:
       - "8001:80"
-
 
   discount.api:
     container_name: discount.api
@@ -97,7 +96,6 @@ services:
       - discountdb
     ports:
       - "8002:80"
-
 
   discount.grpc:
     container_name: discount.grpc
@@ -113,26 +111,25 @@ services:
     container_name: ordering.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=admin1234#"  
-      - "EventBusSettings:HostAddress=ampq://guest:guest@rabbitmq:5672"
+      - "ConnectionStrings:OrderingConnectionString=Server=orderdb;Database=OrderDb;User Id=sa;Password=SwN12345678"  
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
-      - orderdb
-      - rabbitmq
+        - orderdb
+        - rabbitmq
     ports:
-      - "8004:80"
-
+        - "8004:80"
 
   ocelotapigw:
     container_name: ocelotapigw
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     depends_on:
-      - ordering.api
-      - catalog.api
-      - discount.api
-      - basket.api
+        - catalog.api
+        - basket.api
+        - discount.api
+        - ordering.api
     ports:
-      - "8010"
+      - "8010:80"
 
   shopping.aggregator:
     container_name: shopping.aggregator
@@ -148,3 +145,16 @@ services:
     ports:
       - "8005:80"
 
+  aspnetrunbasics:
+    container_name: aspnetrunbasics
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings:GatewayAddress=http://ocelotapigw"
+    depends_on:
+      - ocelotapigw
+      - catalog.api
+      - basket.api
+      - discount.api
+      - ordering.api
+    ports:
+      - "8006:80"

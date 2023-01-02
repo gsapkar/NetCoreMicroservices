@@ -1,6 +1,8 @@
 ﻿using Basket.API.Entities;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
+using System;
+using System.Threading.Tasks;
 
 namespace Basket.API.Repositories
 {
@@ -16,7 +18,7 @@ namespace Basket.API.Repositories
         public async Task<ShoppingCart> GetBasket(string userName)
         {
             var basket = await _redisCache.GetStringAsync(userName);
-
+            
             if (String.IsNullOrEmpty(basket))
                 return null;
 

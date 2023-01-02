@@ -1,61 +1,33 @@
-using EventBus.Message.Common;
-using MassTransit;
-using Ordering.API.EventBusConsumer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Ordering.API.Extensions;
-using Ordering.Application;
-using Ordering.Infrastructure;
-using Ordering.Infrastructure.Persistance;
+using Ordering.Infrastructure.Persistence;
+using Microsoft.Extensions.DependencyInjection;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddApplicationServices();
-builder.Services.AddInfrastructureServices(builder.Configuration);
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-//MassTransit-RabbitMQ Configuration
-builder.Services.AddMassTransit(config =>
+namespace Ordering.API
 {
-    config.AddConsumer<BasketCheckoutConsumer>();
-
-    config.UsingRabbitMq((ctx, cfg) =>
+    public class Program
     {
-        cfg.Host(builder.Configuration.GetValue<string>("EventBusSettings:HostAddress"));
-
-        cfg.ReceiveEndpoint(EventBusConstants.BasketCheckoutQueue, c =>
+        public static void Main(string[] args)
         {
-            c.ConfigureConsumer<BasketCheckoutConsumer>(ctx);
-        });
-    });
-});
-builder.Services.AddMassTransitHostedService();
+            CreateHostBuilder(args)
+                .Build()
+                .MigrateDatabase<OrderContext>((context, services) =>
+                {
+                    var logger = services.GetService<ILogger<OrderContextSeed>>();
+                    OrderContextSeed
+                        .SeedAsync(context, logger)
+                        .Wait();
+                })
+                .Run();
+        }
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-builder.Services.AddScoped<BasketCheckoutConsumer>();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
 }
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MigrateDatabase<OrderContext>((context, services) =>
-{
-    var logger = services.GetService<ILogger<OrderContextSeed>>();
-    OrderContextSeed
-        .SeedAsync(context, logger)
-        .Wait();
-});
-
-app.Run();

@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ordering.Application.Contracts.Persistence;
 using Ordering.Domain.Entities;
-using Ordering.Infrastructure.Persistance;
+using Ordering.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,10 +18,9 @@ namespace Ordering.Infrastructure.Repositories
 
         public async Task<IEnumerable<Order>> GetOrdersByUserName(string userName)
         {
-            Expression<Func<Order, bool>> predicate = o => o.UserName == userName;
-
-            var orderList = await this.GetAsync(predicate);
-
+            var orderList = await _dbContext.Orders
+                                    .Where(o => o.UserName == userName)
+                                    .ToListAsync();
             return orderList;
         }
     }
