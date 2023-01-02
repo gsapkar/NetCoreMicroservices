@@ -4,6 +4,10 @@ Based on https://github.com/aspnetrun/run-aspnetcore-microservices
 Udemy course:
 Microservices Architecture and Implementation on .NET 6
 
+See the overall picture of **implementations on microservices with .net tools** on real-world **e-commerce microservices** project;
+
+![microservices_remastered](https://user-images.githubusercontent.com/1147445/110304529-c5b70180-800c-11eb-832b-a2751b5bda76.png)
+
 ## Includes:
 ## Whats Including In This Repository
 We have implemented below **features over the run-aspnetcore-microservices repository**.
