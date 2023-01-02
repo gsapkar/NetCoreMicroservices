@@ -66,6 +66,8 @@ services:
 
   aspnetrunbasics:
     image: ${DOCKER_REGISTRY-}aspnetrunbasics
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     build:
       context: .
       dockerfile: WebApps/AspnetRunBasics/Dockerfile
