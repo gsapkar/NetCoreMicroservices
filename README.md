@@ -2,21 +2,21 @@
 Based on https://github.com/aspnetrun/run-aspnetcore-microservices
 
 Udemy course:
-Microservices Architecture and Implementation on .NET 6
+Microservices Architecture and Implementation on .NET * 6
 
 Medium articles:
-https://medium.com/aspnetrun (ALL)
-https://medium.com/aspnetrun/cqrs-and-event-sourcing-in-event-driven-architecture-of-ordering-microservices-fb67dc44da7a
-https://medium.com/aspnetrun/microservices-event-driven-architecture-with-rabbitmq-and-docker-container-on-net-968d73052cbb
-https://medium.com/aspnetrun/building-ocelot-api-gateway-microservices-with-asp-net-core-and-docker-container-13f96026e86c
-https://medium.com/aspnetrun/using-redis-with-asp-net-core-and-docker-container-for-basket-microservices-715ff739186e
-https://medium.com/aspnetrun/microservices-using-asp-net-postgresql-dapper-micro-orm-and-docker-container-e9d61a408d2a
-https://medium.com/aspnetrun/build-catalog-microservice-using-asp-net-core-mongodb-and-docker-container-88b8fd4d5040
-https://medium.com/aspnetrun/microservices-monitoring-with-health-checks-using-watchdog-6b16fdae0349
-https://medium.com/aspnetrun/microservices-resilience-and-fault-tolerance-with-applying-retry-and-circuit-breaker-patterns-c32e518db990
-https://medium.com/aspnetrun/microservices-observability-with-distributed-logging-using-elasticsearch-and-kibana-79df919997d2
-https://medium.com/aspnetrun/microservices-observability-resilience-monitoring-on-net-a5dfbdbb0fbd
-https://medium.com/aspnetrun/automate-deployments-with-ci-cd-pipelines-on-azure-devops-13a83d3dd67a
+* https://medium.com/aspnetrun (ALL)
+* https://medium.com/aspnetrun/cqrs-and-event-sourcing-in-event-driven-architecture-of-ordering-microservices-fb67dc44da7a
+* https://medium.com/aspnetrun/microservices-event-driven-architecture-with-rabbitmq-and-docker-container-on-net-968d73052cbb
+* https://medium.com/aspnetrun/building-ocelot-api-gateway-microservices-with-asp-net-core-and-docker-container-13f96026e86c
+* https://medium.com/aspnetrun/using-redis-with-asp-net-core-and-docker-container-for-basket-microservices-715ff739186e
+* https://medium.com/aspnetrun/microservices-using-asp-net-postgresql-dapper-micro-orm-and-docker-container-e9d61a408d2a
+* https://medium.com/aspnetrun/build-catalog-microservice-using-asp-net-core-mongodb-and-docker-container-88b8fd4d5040
+* https://medium.com/aspnetrun/microservices-monitoring-with-health-checks-using-watchdog-6b16fdae0349
+* https://medium.com/aspnetrun/microservices-resilience-and-fault-tolerance-with-applying-retry-and-circuit-breaker-patterns-c32e518db990
+* https://medium.com/aspnetrun/microservices-observability-with-distributed-logging-using-elasticsearch-and-kibana-79df919997d2
+* https://medium.com/aspnetrun/microservices-observability-resilience-monitoring-on-net-a5dfbdbb0fbd
+* https://medium.com/aspnetrun/automate-deployments-with-ci-cd-pipelines-on-azure-devops-13a83d3dd67a
 
 See the overall picture of **implementations on microservices with .net tools** on real-world **e-commerce microservices** project;
 
@@ -110,7 +110,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 
 >Note: If you get connection timeout error Docker for Mac please [Turn Off Docker's "Experimental Features".](https://github.com/aspnetrun/run-aspnetcore-microservices/issues/33)
 
-4. Wait for docker compose all microservices. That’s it! (some microservices need extra time to work so please wait if not worked in first shut)
+4. Wait for docker compose all microservices. Thatâ€™s it! (some microservices need extra time to work so please wait if not worked in first shut)
 
 5. You can **launch microservices** as below urls:
 
